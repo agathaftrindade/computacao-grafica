@@ -7,6 +7,8 @@ from imutils import face_utils
 
 from collections import OrderedDict
 
+from face_processing import process_face_image
+
 cap = cv2.VideoCapture(0)
 
 # detector = dlib.get_frontal_face_detector()
@@ -28,6 +30,7 @@ while True:
 
         shape = predictor(gray, rect)
         shape = face_utils.shape_to_np(shape)
+
         for (name, (i, j)) in face_utils.FACIAL_LANDMARKS_IDXS.items():
 
             # clone the original image so we can draw on it, then
@@ -36,6 +39,8 @@ while True:
 
             for (x, y) in shape[i:j]:
                 cv2.circle(image, (x, y), 1, (0, 0, 255), -1)
+
+        process_face_image(image, shape)
 
     cv2.imshow("Output", np.flip(image, axis=1))
 
